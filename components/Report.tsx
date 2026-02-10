@@ -4,9 +4,15 @@ import type { BaziChart } from '../constants.ts';
 import { speakText } from '../utils/ttsEngine.ts';
 import { GoogleGenerativeAI } from "@google/generative-ai";
 import OpenAI from 'openai';
-import { API_CONFIG } from '../config.ts';
 import BaziAnalysis from './BaziAnalysis.tsx';
 import { marked } from 'marked';
+
+// Default API configuration fallback
+const DEFAULT_API_CONFIG = {
+  GEMINI_API_KEY: '',
+  DEEPSEEK_API_KEY: '',
+  AI_PROVIDER: 'gemini'
+};
 
 // Configure marked to support GitHub Flavored Markdown
 marked.setOptions({
@@ -139,10 +145,10 @@ const Report: React.FC<Props> = ({ chart, exportMode = false, initialAiContent, 
     }
 
     try {
-      const provider = (import.meta as any).env?.VITE_AI_PROVIDER || API_CONFIG.AI_PROVIDER || 'gemini';
+      const provider = (import.meta as any).env?.VITE_AI_PROVIDER || DEFAULT_API_CONFIG.AI_PROVIDER || 'gemini';
       const apiKey = provider === 'deepseek'
-        ? ((import.meta as any).env?.VITE_DEEPSEEK_API_KEY || API_CONFIG.DEEPSEEK_API_KEY)
-        : ((import.meta as any).env?.VITE_GEMINI_API_KEY || API_CONFIG.GEMINI_API_KEY);
+        ? ((import.meta as any).env?.VITE_DEEPSEEK_API_KEY || DEFAULT_API_CONFIG.DEEPSEEK_API_KEY)
+        : ((import.meta as any).env?.VITE_GEMINI_API_KEY || DEFAULT_API_CONFIG.GEMINI_API_KEY);
 
       if (!apiKey) throw new Error(`${provider} API Key not configured`);
 
