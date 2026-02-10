@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>子平八字·天机阁 | Imperial Bazi Pro</title>
+  <link rel="icon"
+    href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>☯</text></svg>" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@300;400;500;700&display=swap"
+    rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+  <style>
+    body {
+      font-family: 'Noto Serif SC', serif;
+      background-color: #f5f5f4;
+      margin: 0;
+      padding: 0;
+    }
+
+    #root:empty {
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #f5f5f4;
+    }
+
+    #root:empty::after {
+      content: "系统正在开启推演...";
+      color: #78716c;
+      font-family: serif;
+      letter-spacing: 0.3em;
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+
+      0%,
+      100% {
+        opacity: 1;
+      }
+
+      50% {
+        opacity: 0.5;
+      }
+    }
+
+    @keyframes speak-pulse {
+      0% {
+        transform: scale(1);
+        box-shadow: 0 0 0 0 rgba(185, 28, 28, 0.7);
+      }
+
+      70% {
+        transform: scale(1.05);
+        box-shadow: 0 0 0 10px rgba(185, 28, 28, 0);
+      }
+
+      100% {
+        transform: scale(1);
+        box-shadow: 0 0 0 0 rgba(185, 28, 28, 0);
+      }
+    }
+
+    .animate-speak {
+      animation: speak-pulse 2s infinite;
+    }
+
+    .animate-fadeIn {
+      animation: fadeIn 0.5s ease-out;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .scrollbar-hide::-webkit-scrollbar {
+      display: none;
+    }
+
+    .scrollbar-hide {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+
+    .pdf-page-break {
+      page-break-before: always;
+    }
+
+    @media print {
+      .no-print {
+        display: none;
+      }
+    }
+  </style>
+  <script>
+    // Shim for process.env to prevent ReferenceError in browsers
+    if (typeof window !== 'undefined' && typeof window.process === 'undefined') {
+      window.process = { env: {} };
+    }
+
+    window.onerror = function (msg, url, line, col, error) {
+      console.error("Global Error:", msg, url, line);
+      const root = document.getElementById('root');
+      if (root) {
+        // Clear existing content to remove the :empty state
+        root.innerHTML = '';
+        const errorDiv = document.createElement('div');
+        errorDiv.style.cssText = "padding:40px; font-family:sans-serif; text-align:left; background:white; min-height:100vh;";
+        errorDiv.innerHTML = `
+             <h2 style="color:#991b1b; font-size:24px;">天机运行受阻</h2>
+             <p style="color:#57534e; margin-top:10px; font-weight:bold;">错误信息：${msg}</p>
+             <p style="font-size:14px; color:#a8a29e; margin-top:5px;">位置: ${url} (行: ${line})</p>
+             <button onclick="location.reload()" style="margin-top:24px; padding:10px 30px; background:#444; color:white; border:none; border-radius:2px; cursor:pointer;">刷新页面</button>
+           `;
+        root.appendChild(errorDiv);
+      }
+    };
+  </script>
+  <script type="importmap">
+{
+  "imports": {
+    "react": "https://esm.sh/react@18.3.1?dev",
+    "react-dom": "https://esm.sh/react-dom@18.3.1?dev&deps=react@18.3.1",
+    "react-dom/client": "https://esm.sh/react-dom@18.3.1/client?dev&deps=react@18.3.1",
+    "@google/genai": "https://esm.sh/@google/genai@0.2.1",
+    "react-dom/": "https://esm.sh/react-dom@^19.2.4/",
+    "react/": "https://esm.sh/react@^19.2.4/"
+  }
+}
+</script>
+  <link rel="stylesheet" href="/index.css">
+</head>
+
+<body>
+  <div id="root"></div>
+  <script type="module" src="./index.tsx"></script>
+  <script type="module" src="/index.tsx"></script>
+</body>
+
+</html>
